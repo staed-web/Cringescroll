@@ -15,12 +15,12 @@ header {
   text-align: center;
   padding: 2rem;
   background: #111;
-  border-bottom: 2px solid #ff3d3d; /* Red line */
+  border-bottom: 2px solid #ff3d3d;
 }
 
 header h1 {
   font-size: 2rem;
-  color: #ff3d3d; /* Red text */
+  color: #ff3d3d;
   margin-bottom: 0.5rem;
 }
 
@@ -41,33 +41,13 @@ header p {
   padding: 1rem;
 }
 
-.loading {
-  text-align: center;
-  padding: 2rem;
-  color: #777;
-  font-style: italic;
-}
-
-footer {
-  text-align: center;
-  padding: 2rem;
-  color: #999;
-  font-size: 0.9rem;
-}
-
-.error {
-  text-align: center;
-  padding: 2rem;
-  color: #ff3d3d;
-  font-weight: bold;
-}
-
 .meme-card {
   background: #1e1e1e;
   border-radius: 12px;
   padding: 1rem;
   margin: 1.5rem 0;
   box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  border: 1px solid #333;
 }
 
 .meme-card .title {
@@ -81,4 +61,21 @@ footer {
   max-width: 100%;
   border-radius: 8px;
   border: 1px solid #333;
+}
+
+.ad-unit {
+  background: #2a2a2a;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 10px;
+  text-align: center;
+  color: #888;
+  border: 1px dashed #555;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #ff3d3d;
+  font-weight: bold;
 }
