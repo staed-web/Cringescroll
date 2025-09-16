@@ -34,3 +34,16 @@ async function fetchMeme() {
 
   } catch (err) {
     console.error("Failed to load meme:", err.message);
+    setTimeout(fetchMeme, 3000);
+  }
+}
+
+// Load first meme on open
+fetchMeme();
+
+// Load more when scrolling
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 600) {
+    fetchMeme();
+  }
+});
