@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+// Use ES6 import (preferred by Netlify)
+import fetch from 'node-fetch';
 
 exports.handler = async () => {
   const apiOptions = [
@@ -16,7 +17,7 @@ exports.handler = async () => {
     },
     { 
       name: 'tenor',
-      url: 'https://tenor.googleapis.com/v2/search?q=cringe&key=AIzaSyB5ZVjvNQYAEbqF8sD7yKd9EeTqXwRkSdw'
+      url: 'https://tenor.googleapis.com/v2/search?q=cringe&key=AIzaSyB5ZVjvNQYAEbqF8sD7yKd9EeTqXwRkSdw&limit=1'
     }
   ];
 
@@ -37,32 +38,34 @@ exports.handler = async () => {
         };
       
       case 'imgflip':
-        const imgflipMeme = data.data.memes[Math.floor(Math.random() * data.data.memes.length)];
+        const meme = data.data.memes[Math.floor(Math.random() * data.data.memes.length)];
         return {
           statusCode: 200,
           body: JSON.stringify({
-            url: imgflipMeme.url,
-            title: imgflipMeme.title
+            url: meme.url,
+            title: meme.name || "Imgflip Meme"
           })
         };
 
       case 'reddit':
-        const redditPost = data.data.children[0].data;
+        const post = data.data.children[0].data;
+        // Only allow image links
+        if (!post.url.includes("i.redd.it")) break;
         return {
           statusCode: 200,
           body: JSON.stringify({
-            url: redditPost.url,
-            title: redditPost.title
+            url: post.url,
+            title: post.title
           })
         };
 
       case 'tenor':
-        const tenorGif = data.results[Math.floor(Math.random() * data.results.length)];
+        const gif = data.results[0];
         return {
           statusCode: 200,
           body: JSON.stringify({
-            url: tenorGif.media[0].gif.url,
-            title: tenorGif.title
+            url: gif.media_formats.gif.url,
+            title: gif.title || "Tenor Cringe"
           })
         };
 
@@ -71,10 +74,14 @@ exports.handler = async () => {
     }
 
   } catch (err) {
-    console.error("API Error:", err);
+    console.error("API Error:", err.message);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to fetch meme" })
+      body: JSON.stringify({ 
+        error: "Failed to fetch meme", 
+        fallback: "https://i.imgur.com/8l9kx7q6s6v01.jpg",
+        title: "Cringe Engine Overloaded"
+      })
     };
   }
 };
