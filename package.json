@@ -1,6 +1,8 @@
 {
   "name": "cringe-meme-scroll",
   "version": "1.0.0",
+  "description": "Infinite cringe meme scroll with auto-loading memes",
+  "main": "index.html",
   "dependencies": {
     "node-fetch": "^3.3.2"
   },
