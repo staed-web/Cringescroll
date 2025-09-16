@@ -3,14 +3,7 @@ const container = document.getElementById("container");
 async function fetchMeme() {
   try {
     const res = await fetch("/.netlify/functions/fetch-meme");
-    
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    
     const data = await res.json();
-
-    if (!data.url || !data.title) {
-      throw new Error("Invalid response data");
-    }
 
     const card = document.createElement("div");
     card.className = "meme-card";
@@ -41,31 +34,3 @@ async function fetchMeme() {
 
   } catch (err) {
     console.error("Failed to load meme:", err.message);
-
-    const errorDiv = document.createElement("div");
-    errorDiv.className = "error";
-    errorDiv.innerHTML = `
-      <span style="font-size: 2rem;">❌</span>
-      <br>
-      <strong>Failed to load meme</strong>
-      <br>
-      Trying again...
-    `;
-    container.appendChild(errorDiv);
-
-    setTimeout(() => {
-      if (errorDiv.parentNode) errorDiv.remove();
-      fetchMeme();
-    }, 3000);
-  }
-}
-
-// Load first meme on open
-fetchMeme();
-
-// Load more when scrolling
-window.addEventListener("scroll", () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 600) {
-    fetchMeme();
-  }
-});
