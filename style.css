@@ -15,12 +15,12 @@ header {
   text-align: center;
   padding: 2rem;
   background: #111;
-  border-bottom: 2px solid #ff3d3d;
+  border-bottom: 2px solid #ff3d3d; /* Red line */
 }
 
 header h1 {
   font-size: 2rem;
-  color: #ff3d3d;
+  color: #ff3d3d; /* Red text */
   margin-bottom: 0.5rem;
 }
 
@@ -60,4 +60,25 @@ footer {
   padding: 2rem;
   color: #ff3d3d;
   font-weight: bold;
+}
+
+.meme-card {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.meme-card .title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+
+.meme-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #333;
 }
