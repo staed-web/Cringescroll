@@ -1,49 +1,95 @@
-const container = document.getElementById("container");
-
-async function fetchMeme() {
-  try {
-    const res = await fetch("/.netlify/functions/fetch-meme");
-    const data = await res.json();
-
-    const card = document.createElement("div");
-    card.className = "meme-card";
-
-    const titleEl = document.createElement("div");
-    titleEl.className = "title";
-    titleEl.textContent = data.title;
-    card.appendChild(titleEl);
-
-    const img = document.createElement("img");
-    img.src = data.url + "?t=" + Date.now();
-    img.alt = data.title;
-    img.loading = "lazy";
-    img.onerror = () => {
-      img.src = "https://via.placeholder.com/500x300?text=Image+Failed";
-    };
-    card.appendChild(img);
-
-    container.appendChild(card);
-
-    // Insert ad every 3rd item
-    if (container.children.length % 3 === 0) {
-      const ad = document.createElement("div");
-      ad.className = "ad-unit";
-      ad.innerHTML = "[ GOOGLE ADSENSE WILL GO HERE ]";
-      container.appendChild(ad);
-    }
-
-  } catch (err) {
-    console.error("Failed to load meme:", err.message);
-    setTimeout(fetchMeme, 3000);
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-// Load first meme on open
-fetchMeme();
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #000;
+  color: #fff;
+  line-height: 1.6;
+}
 
-// Load more when scrolling
-window.addEventListener("scroll", () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 600) {
-    fetchMeme();
-  }
-});
+header {
+  text-align: center;
+  padding: 2rem;
+  background: #111;
+  border-bottom: 2px solid #ff3d3d;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #ff3d3d;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  color: #ccc;
+  font-style: italic;
+}
+
+.divider {
+  height: 2px;
+  background: #ff3d3d;
+  margin: 1rem 0;
+}
+
+#container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.meme-card {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  border: 1px solid #333;
+}
+
+.meme-card .title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+
+.meme-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.ad-unit {
+  background: #2a2a2a;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 10px;
+  text-align: center;
+  color: #888;
+  border: 1px dashed #555;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #ff3d3d;
+  font-weight: bold;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #777;
+  font-style: italic;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+  font-size: 0.9rem;
+}
