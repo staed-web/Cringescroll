@@ -3,8 +3,19 @@ const container = document.getElementById("container");
 async function fetchMeme() {
   try {
     const res = await fetch("/.netlify/functions/fetch-meme");
+    
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
     const data = await res.json();
 
+    // Validate response
+    if (!data.url || !data.title) {
+      throw new Error("Invalid response");
+    }
+
+    // Create meme card
     const card = document.createElement("div");
     card.className = "meme-card";
 
@@ -14,7 +25,7 @@ async function fetchMeme() {
     card.appendChild(titleEl);
 
     const img = document.createElement("img");
-    img.src = data.url;
+    img.src = data.url + "?t=" + Date.now(); // Prevent caching
     img.alt = data.title;
     img.loading = "lazy";
     img.onerror = () => {
@@ -33,8 +44,9 @@ async function fetchMeme() {
     }
 
   } catch (err) {
-    console.error("Failed:", err);
-    
+    console.error("Failed:", err.message);
+
+    // Show error message
     const errorDiv = document.createElement("div");
     errorDiv.className = "error";
     errorDiv.innerHTML = `
@@ -46,6 +58,7 @@ async function fetchMeme() {
     `;
     container.appendChild(errorDiv);
 
+    // Retry after 3 seconds
     setTimeout(() => {
       if (errorDiv.parentNode) errorDiv.remove();
       fetchMeme();
